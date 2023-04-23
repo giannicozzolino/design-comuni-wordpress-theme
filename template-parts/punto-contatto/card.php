@@ -8,7 +8,6 @@ $voci = dci_get_meta('voci', $prefix, $pc_id);
 
 $other_contacts = array(
     'linkedin',
-    'pec',
     'skype',
     'telegram',
     'twitter',
@@ -17,12 +16,10 @@ $other_contacts = array(
 ?>
 
 <div class="card card-teaser card-teaser-info rounded shadow-sm p-4 me-3">
-    <div class="card-body pe-3">
-        <h5 class="card-title">
-            <a href="#">
+    <div class="card-body richtext-wrapper">
+        <h3>
             <?php echo $contatto->post_title; ?>
-            </a>
-        </h5>
+        </h3>
         <div class="card-text">
             <?php if ( is_array($full_contatto['indirizzo'] ?? null) && count ($full_contatto['indirizzo']) ) {
                 foreach ($full_contatto['indirizzo'] as $value) {
