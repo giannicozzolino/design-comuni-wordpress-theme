@@ -288,6 +288,7 @@ function dci_add_servizi_metaboxes() {
 
     $cmb_tempi->add_field( array(
         'id' => $prefix . 'tempi_text',
+        'title'        => __( 'Tempi e scadenze *', 'design_comuni_italia' ),
         'type' => 'wysiwyg',
         'options' => array(
             'media_buttons' => false, // show insert/upload button(s)
@@ -377,7 +378,7 @@ function dci_add_servizi_metaboxes() {
 
     $cmb_accesso->add_field( array(
         'id' => $prefix . 'procedure_collegate',
-        'name'        => __( 'Procedure collegate all\'esito *', 'design_comuni_italia' ),
+        'name'        => __( 'Procedure collegate all\'esito', 'design_comuni_italia' ),
         'desc' => __( 'Questo campo indica cosa fare per conoscere \'esito della procedura, e dove eventualmente ritirare l\'esito (sede dell\'ufficio, orari, numero sportello, etc.)' , 'design_comuni_italia' ),
         'type' => 'wysiwyg',
         'options' => array(
@@ -385,9 +386,9 @@ function dci_add_servizi_metaboxes() {
             'textarea_rows' => 10, // rows="..."
             'teeny' => false, // output the minimal editor config used in Press This
         ),
-        'attributes'    => array(
-            'required'    => 'required'
-        ),
+//        'attributes'    => array(
+//            'required'    => 'required'
+//        ),
     ) );
 
     $cmb_accesso->add_field( array(
@@ -443,6 +444,25 @@ function dci_add_servizi_metaboxes() {
         ),
     ) );
 
+	//SERVIZI
+	$cmb_servizi = new_cmb2_box( array(
+		'id'           => $prefix . 'box_servizi',
+		'title'        => __( 'Servizi correlati', 'design_comuni_italia' ),
+		'object_types' => array( 'servizio' ),
+		'context'      => 'normal',
+		'priority'     => 'high',
+	) );
+	$cmb_servizi->add_field( array(
+		'id' => $prefix . 'elenco_servizi_correlati',
+		'name'    => __( 'Elenco servizi correlati', 'design_comuni_italia' ),
+		'desc' => __( 'Relazione con ulteriori servizi offerti dalla struttura' , 'design_comuni_italia' ),
+		'type'    => 'pw_multiselect',
+		'options' => dci_get_posts_options('servizio'),
+		'attributes' => array(
+			'placeholder' =>  __( 'Seleziona i Servizi', 'design_comuni_italia' ),
+		)
+	) );
+
     //CASI PARTICOLARI
     $cmb_casi_particolari = new_cmb2_box( array(
         'id'           => $prefix . 'box_casi_particolari',
@@ -490,7 +510,7 @@ function dci_add_servizi_metaboxes() {
 
     $cmb_condizioni_servizio = new_cmb2_box( array(
         'id'           => $prefix . 'box_condizioni_servizio',
-        'title'        => __( 'Condizioni di servizio *', 'design_comuni_italia' ),
+        'title'        => __( 'Condizioni di servizio', 'design_comuni_italia' ),
         'object_types' => array( 'servizio' ),
         'context'      => 'normal',
         'priority'     => 'high',
@@ -501,9 +521,9 @@ function dci_add_servizi_metaboxes() {
             'desc' => __( 'file contenente i termini e le condizioni del servizio' , 'design_comuni_italia' ),
             'id'             => $prefix . 'condizioni_servizio',
             'type' => 'file',
-            'attributes' => array(
-                'required' => 'required'
-            )
+//            'attributes' => array(
+//                'required' => 'required'
+//            )
         )
     );
 
@@ -518,7 +538,7 @@ function dci_add_servizi_metaboxes() {
 
     $cmb_contatti->add_field( array(
         'id' => $prefix . 'punti_contatto',
-        'name'        => __( 'Punti di Contatto', 'design_comuni_italia' ),
+        'name'        => __( 'Punti di Contatto *', 'design_comuni_italia' ),
         'desc' => __( 'Telefono, mail o altri punti di contatto<br><a href="post-new.php?post_type=punto_contatto">Inserisci Punto di Contatto</a>' , 'design_comuni_italia' ),
         'type'    => 'pw_multiselect',
         'options' => dci_get_posts_options('punto_contatto'),
