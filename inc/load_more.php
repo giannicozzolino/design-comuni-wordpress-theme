@@ -83,7 +83,7 @@ function load_more(){
 			$out .= load_template_part("template-parts/servizio/cards-list");
 		}
 		if ($load_card_type == "notizia"){
-			$out .= load_template_part("template-parts/novita/cards-list");  
+			$out .= load_template_part("template-parts/notizia/cards-list");  
 		}
 		if ($load_card_type == "documento_pubblico"){
 			$out .= load_template_part("template-parts/documento/cards-list");  
