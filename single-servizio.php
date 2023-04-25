@@ -316,11 +316,11 @@ get_header();
                                 <div class="richtext-wrapper lora" data-element="service-needed">
                                     <?php echo $cosa_serve_intro ?>
                                     <ul >
-                                        <?php
-                                        if ($cosa_serve_list) {
+                                        <?php 
+                                        if ($cosa_serve_list && is_array($cosa_serve_list) & count($cosa_serve_list)){
                                         foreach ($cosa_serve_list as $cosa_serve_item) { ?>
                                             <li><span><?php echo $cosa_serve_item ?></span></li>
-                                        <?php } } ?>
+                                        <?php }} ?>
                                     </ul>
                                 </div>
                             </section>
