@@ -24,7 +24,7 @@ function dci_register_taxonomy_categorie_servizio() {
         'show_ui'           => true,
         'show_admin_column' => true,
         'query_var'         => true,
-        'rewrite'           => array( 'slug' => 'servizi-categoria' ),
+        'rewrite'           => array( 'slug' => 'servizi/categoria' ),
         'capabilities'      => array(
             'manage_terms'  => 'manage_categorie_servizio',
             'edit_terms'    => 'edit_categorie_servizio',

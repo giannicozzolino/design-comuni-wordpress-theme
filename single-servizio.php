@@ -466,13 +466,17 @@ get_header();
                             </section>
                             <?php } ?>
 
-                            <?php if ($uo_id) { ?>
-                                <section class="it-page-section mb-30" id="area">
-                                    <h2 class="mb-3">Ufficio di riferimento</h2>
-                                    <div class="richtext-wrapper" data-element="uo-area">
-                                        <?php $post_id = $uo_id; ?>
-                                        <div class="col-lg-6 col-md-12">
-                                            <?php get_template_part("template-parts/unita-organizzativa/card-ico"); ?>
+                            <section id="contacts" class="it-page-section">
+                                <h2 class="mb-3">Contatti</h2>
+	                            <?php if ( $uo_id ) { ?>
+                                    <div class="row">
+                                        <div class="col-lg-8 clo-sm-12 mb-30">
+                                            <div class="card-wrapper rounded h-auto mt-10">
+					                            <?php
+					                            $with_border = true;
+					                            get_template_part("template-parts/unita-organizzativa/card");
+					                            ?>
+                                            </div>
                                         </div>
                                     </div>
                                 </section>
