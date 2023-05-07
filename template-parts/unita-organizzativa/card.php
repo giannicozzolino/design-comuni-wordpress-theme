@@ -1,5 +1,5 @@
 <?php
-global $uo_id, $with_border;
+global $uo_id, $with_border, $with_contacts;
 $ufficio = get_post( $uo_id );
 
 $prefix = '_dci_unita_organizzativa_';
@@ -40,22 +40,24 @@ foreach ( $contatti ?? null as $punto_contatto_id ) {
 				<?php if ( $competenze ) {
 					echo '<p>' . $competenze . '</p>';
 				} ?>
-            </div>
-            <p class="mt-2">
-				<?php foreach ( $indirizzi as $indirizzo ) {
-					echo $indirizzo . '</br>';
-				} ?>
-				<?php foreach ( $telefoni as $telefono ) { ?>
-					Telefono: <a href="tel:<?= $telefono ?>" aria-label="telefona a <?= $telefono ?>"
-						title="telefona a <?= $telefono ?>"><?= $telefono ?></a>
-                </br>
-				<?php } ?>
-				<?php foreach ( $emails as $email ) { ?>
-					Email: <a href="mailto:<?= $email ?>" aria-label="invia un'email a <?= $email ?>"
-						title="invia un'email a <?= $email ?>"><?= $email ?></a>
-                </br>
-				<?php } ?>
-                </p>
+			</div>
+			<?php if ( $with_contacts ) { ?>
+				<p class="mt-2">
+					<?php foreach ( $indirizzi as $indirizzo ) {
+						echo $indirizzo . '</br>';
+					} ?>
+					<?php foreach ( $telefoni as $telefono ) { ?>
+						Telefono: <a href="tel:<?= $telefono ?>" aria-label="telefona a <?= $telefono ?>"
+							title="telefona a <?= $telefono ?>"><?= $telefono ?></a>
+						</br>
+					<?php } ?>
+					<?php foreach ( $emails as $email ) { ?>
+						Email: <a href="mailto:<?= $email ?>" aria-label="invia un'email a <?= $email ?>"
+							title="invia un'email a <?= $email ?>"><?= $email ?></a>
+						</br>
+					<?php } ?>
+				</p>
+			<?php } ?>
 		</div>
 	</div>
 	<?php if ( $img ) { ?>
@@ -67,4 +69,5 @@ foreach ( $contatti ?? null as $punto_contatto_id ) {
 
 <?php
 $with_border = false;
+$with_contacts = false;
 ?>
