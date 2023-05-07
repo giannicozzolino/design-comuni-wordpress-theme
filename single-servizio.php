@@ -471,7 +471,7 @@ get_header();
 	                            <?php if ( $uo_id ) { ?>
                                     <div class="mb-4">
                                         <?php
-                                        $with_border = true;
+                                        $with_contacts = false;
                                         get_template_part("template-parts/unita-organizzativa/card");
                                         ?>
                                     </div>
