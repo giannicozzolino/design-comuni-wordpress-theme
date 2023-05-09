@@ -1,83 +1,69 @@
 <?php
-global $pc_id;
+global $post_id, $with_contacts, $with_all_contacts;
 $prefix = '_dci_punto_contatto_';
+$voci = dci_get_meta( 'voci', $prefix, $post_id ) ?? null;
 
-$full_contatto = dci_get_full_punto_contatto($pc_id);
-$contatto = get_post($pc_id);
-$voci = dci_get_meta('voci', $prefix, $pc_id);
-
-$other_contacts = array(
-    'linkedin',
-    'skype',
-    'telegram',
-    'twitter',
-    'whatsapp'
-);
+$indirizzi = array();
+$emails = array();
+$telefoni = array();
+$altri_contatti = array();
+if ($voci) {
+	foreach ( $voci as $voce ) {
+		if ( $voce[ $prefix . 'tipo_punto_contatto' ] == 'indirizzo' )
+			array_push( $indirizzi, $voce[ $prefix . 'valore' ] );
+		elseif ( $voce[ $prefix . 'tipo_punto_contatto' ] == 'email' )
+			array_push( $emails, $voce[ $prefix . 'valore' ] );
+		elseif ( $voce[ $prefix . 'tipo_punto_contatto' ] == 'telefono' )
+			array_push( $telefoni, $voce[ $prefix . 'valore' ] );
+		else
+			array_push( $altri_contatti, $voce );
+	}
+}
 ?>
 
-<div class="card card-teaser card-teaser-info rounded shadow-sm p-4 me-3">
-    <div class="card-body richtext-wrapper">
-        <h3>
-            <?php echo $contatto->post_title; ?>
-        </h3>
-        <div class="card-text">
-            <?php if ( is_array($full_contatto['indirizzo'] ?? null) && count ($full_contatto['indirizzo']) ) {
-                foreach ($full_contatto['indirizzo'] as $value) {
-                    echo '<p>'.$value.'</p>';
-                } 
-                echo '<p class="mt-3"></p>';
-            } ?>
-            <?php if ( is_array($full_contatto['telefono'] ?? null)  && count ($full_contatto['telefono']) ) {
-                foreach ($full_contatto['telefono'] as $value) {
-                    echo '<p>Telefono: <a href="tel:' . $value .'">'.$value.'</a></p>';
-                }
-            } ?>
-            <?php if ( is_array($full_contatto['url']  ?? null)  && count ($full_contatto['url']) ) {
-                foreach ($full_contatto['url'] as $value) { ?>
-                    <p>
-                        <a 
-                        target="_blank" 
-                        aria-label="scopri di più su <?php echo $value; ?> - link esterno - apertura nuova scheda" 
-                        title="vai sul sito <?php echo $value; ?>" 
-                        href="<?php echo $value; ?>">
-                            <?php echo $value; ?>
-                        </a>
-                    </p>
-               <?php }
-            } ?>
-            <?php if ( is_array($full_contatto['email'] ?? null)  && count ($full_contatto['email']) ) {
-                foreach ($full_contatto['email'] as $value) {
-                    echo '<p>Email: ' ; ?>
-                        <a
-                        target="_blank" 
-                        aria-label="invia un'email a <?php echo $value; ?>"
-                        title="invia un'email a <?php echo $value; ?>" 
-                        href="mailto:<?php echo $value; ?>">
-                            <?php echo $value; ?>
-                        </a>
-                    </p>
-               <?php }
-            } ?>
-	        <?php if ( is_array($full_contatto['pec'] ?? null)  && count ($full_contatto['pec']) ) {
-		        foreach ($full_contatto['pec'] as $value) {
-			        echo '<p>PEC: ' ; ?>
-                    <a
-                            target="_blank"
-                            aria-label="invia una PEC a <?php echo $value; ?>"
-                            title="invia una PEC a <?php echo $value; ?>"
-                            href="mailto:<?php echo $value; ?>">
-				        <?php echo $value; ?>
-                    </a>
-                    </p>
-		        <?php }
-	        } ?>
-            <?php foreach ($other_contacts as $type) {
-                if ( is_array($full_contatto[$type] ?? null) && count ($full_contatto[$type]) ) {
-                    foreach ($full_contatto[$type] as $value) {
-                        echo '<p>'.$type.': '.$value.'</p>';
-                    }
-                } 
-            } ?>
-        </div>
-    </div>
+<div class="card card-teaser shadow mt-3 rounded">
+	<svg class="icon" aria-hidden="true">
+		<use xlink:href="#it-telephone"></use>
+	</svg>
+	<div class="card-body">
+		<h3 class="card-title h5">
+			<a href="<?php echo get_permalink( $post_id ); ?>" class="text-decoration-none">
+				<?php echo get_the_title( $post_id ); ?>
+			</a>
+		</h3>
+		<div class="card-text">
+			<p class="mt-2">
+				<?php foreach ( $indirizzi as $indirizzo ) {
+					echo $indirizzo . '</br>';
+				} ?>
+				<?php foreach ( $telefoni as $telefono ) { ?>
+					Telefono: <a href="tel:<?= $telefono ?>" aria-label="telefona a <?= $telefono ?>"
+						title="telefona a <?= $telefono ?>"><?= $telefono ?></a>
+					</br>
+				<?php } ?>
+				<?php foreach ( $emails as $email ) { ?>
+					Email: <a href="mailto:<?= $email ?>" aria-label="invia un'email a <?= $email ?>"
+						title="invia un'email a <?= $email ?>"><?= $email ?></a>
+					</br>
+				<?php } ?>
+				<?php if ( $with_all_contacts ?? false ) { ?>
+					<?php foreach ( $altri_contatti as $altro ) { ?>
+						<?php echo ucfirst( $altro[ $prefix . 'tipo_punto_contatto' ] ) . ": " . $altro[ $prefix . 'valore' ]; ?>
+						</br>
+					<?php } ?>
+				<?php } ?>
+			</p>
+		</div>
+	</div>
+	<?php if ( $img ?? null ) { ?>
+		<div class="avatar size-xl">
+			<?php dci_get_img( $img ); ?>
+		</div>
+	<?php } ?>
 </div>
+
+<?php
+$with_border = false;
+$with_contacts = false;
+$with_all_contacts = false;
+?>
