@@ -38,3 +38,7 @@ node_modules/
 nbproject
 Thumbs.db
 .vscode
+vendor/*
+composer.lock
+composer.json
+
