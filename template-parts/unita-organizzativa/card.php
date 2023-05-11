@@ -3,7 +3,7 @@ global $post_id, $with_contacts, $with_all_contacts;
 $post = get_post( $post_id );
 
 $prefix = '_dci_unita_organizzativa_';
-$competenze = dci_get_meta( 'competenze', $prefix, $post_id );
+$descrizione_breve = dci_get_meta( 'descrizione_breve', $prefix, $post_id );
 
 $img = dci_get_meta( 'immagine', $prefix, $post_id );
 $contatti = dci_get_meta( 'contatti', $prefix, $post_id );
@@ -41,8 +41,8 @@ foreach ( $contatti ?? null as $punto_contatto_id ) {
 		</h3>
 		<div class="card-text">
 			<div class="mt-3">
-				<?php if ( $competenze ) {
-					echo '<p>' . $competenze . '</p>';
+				<?php if ( $descrizione_breve ) {
+					echo '<p>' . $descrizione_breve . '</p>';
 				} ?>
 			</div>
 			<?php if ( $with_contacts ?? false ||  $with_all_contacts ?? false) { ?>
