@@ -1,5 +1,5 @@
 <?php
-global $the_query, $load_posts, $load_card_type, $tipo_documento, $post_id, $excerpt;
+global $the_query, $load_posts, $load_card_type, $tipo_documento, $post_id, $excerpt, $additional_filter;
 
 $max_posts  = $_GET['max_posts'] ?? 50;
 $load_posts = 50;
@@ -22,6 +22,7 @@ if ( $tipo_documento ?? null ) {
 		'orderby'        => $orderBy,
 		'order'          => $order,
 		'tax_query'      => array(
+			'relation' => 'AND',
 			array(
 				'taxonomy' => $tipo_documento->taxonomy,
 				'field'    => 'term_id',
@@ -29,6 +30,9 @@ if ( $tipo_documento ?? null ) {
 			)
 		),
 	);
+	$additional_filter = array();
+	$additional_filter['taxonomy'] = $tipo_documento->taxonomy;
+	$additional_filter['terms'] = $tipo_documento->term_id;
 } else {
 	$args = array(
 		's'              => $query,
@@ -40,6 +44,10 @@ if ( $tipo_documento ?? null ) {
 		'order'          => $order,
 	);
 }
+$additional_filter['orderby'] = $orderBy;
+$additional_filter['order']   = $order;
+
+
 $the_query = new WP_Query( $args );
 
 $posts = $the_query->posts;
@@ -47,8 +55,8 @@ $posts = $the_query->posts;
 
 
 <div class="bg-grey-card py-5">
-	<form role="search" id="search-form" method="get" class="search-form">
-		<button type="submit" class="d-none"></button>
+    <form role="search" id="search-form" method="get" class="search-form">
+        <button type="submit" class="d-none"></button>
 		<div class="container">
 			<h2 class="title-xxlarge mb-4">
 				Esplora i documenti
@@ -83,25 +91,27 @@ $posts = $the_query->posts;
                             <use
 	                            href="#it-search"
                             ></use></svg></span>
-						</div>
-						<p id="autocomplete-label" class="u-grey-light text-paragraph-card mt-2 mb-4 mt-lg-3 mb-lg-40">
+                        </div>
+                        <p id="autocomplete-label" class="u-grey-light text-paragraph-card mt-2 mb-4 mt-lg-3 mb-lg-40">
 							<?php echo $the_query->found_posts; ?> documenti trovati in ordine cronologico decrescente
-						</p>
-					</div>
-				</div>
-			</div>
-			<div class="row g-2" id="load-more">
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="row g-2" id="load-more">
 				<?php
-				$load_card_type = 'documento';
-				$excerpt = true;
-				foreach ( $posts as $post_id ) { ?>
-					<div class="col-lg-4">
+				//				$excerpt = true;
+				foreach ( $posts as $post_id ) {
+					// necessario per caricare i risultati in load_more.php
+					$load_card_type = 'documento_pubblico';
+					?>
+                    <!--					<div class="col-lg-4">-->
 					<?php get_template_part( 'template-parts/documento/card' ); ?>
-					</div>
+                    <!--					</div>-->
 				<?php }
 				?>
-			</div>
+            </div>
 			<?php get_template_part( "template-parts/search/more-results" ); ?>
-		</div>
-	</form>
+        </div>
+    </form>
 </div>

@@ -1,11 +1,11 @@
 (function($) {
   'use strict';
 
-	$('.iconselectfa').each(function(){
+	$('.iconselectfa').each(function () {
 		$(this).fontIconPicker({
 			theme: 'fip-grey'
-		})
-	})
+		});
+	});
 
 	// Before a new group row is added, destroy Select2. We'll reinitialise after the row is added
 	$('.cmb-repeatable-group').on('cmb2_add_group_row_start', function (event, instance) {
@@ -20,7 +20,7 @@
 	// When a new group row is added, clear selection and initialise Select2
 	$('.cmb-repeatable-group').on('cmb2_add_row', function (event, newRow) {
 		$(newRow).find('.iconselectfa').each(function () {
-			$('option:selected', this).removeAttr("selected");
+			$('option:selected', this).removeAttr('selected');
 			$(this).fontIconPicker().refreshPicker({
 				theme: 'fip-grey'
 			});
@@ -68,19 +68,18 @@
 
 		// Reinitialise the field we previously destroyed
 		$(newRow).prev().find('.iconselectfa').each(function () {
-			$('option:selected', this).removeAttr("selected");
-				$(this).fontIconPicker().refreshPicker({
+			$('option:selected', this).removeAttr('selected');
+			$(this).fontIconPicker().refreshPicker({
 				theme: 'fip-grey'
-				});
+			});
 		});
 	});
 
-	$( "#target" ).click(function() {
-		alert( "Handler for .click() called." );
-	});
+	// $( '#target' ).click(function() {
+	// 	alert( 'Handler for .click() called.' );
+	// });
 
-	jQuery('.it-designers-italia').click(function(){
-		console.log('hello');
+	jQuery('.it-designers-italia').click(function () {
 		jQuery('.it-designers-italia').find('i').replaceWith('<svg className="icon"> <use href="/bootstrap-italia/dist/svg/sprite.svg#it-video"></use></svg>');
 	});
 

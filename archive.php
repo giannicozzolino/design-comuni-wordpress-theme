@@ -8,16 +8,16 @@
  */
 
 global $obj, $title, $tipo_documento;
-$obj = get_queried_object();
+$obj   = get_queried_object();
 $class = "petrol";
 
-if ( $obj->name=="documento_pubblico" ){
-    $title = "Documenti pubblici";
-	get_template_part( "archive-documento" );
-    return;
-}
-else
-	get_template_part("archive");
+//if ( $obj->name=="documento_pubblico" ){
+//    $title = "Documenti pubblici";
+//	get_template_part( "archive-documento" );
+//    return;
+//}
+//else
+//	get_template_part("archive");
 
 
 get_header();
@@ -27,7 +27,7 @@ get_header();
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-12 col-lg-10">
-	                <?php get_template_part("template-parts/common/breadcrumb"); ?>
+					<?php get_template_part( "template-parts/common/breadcrumb" ); ?>
                 </div>
 
             </div>

@@ -35,43 +35,56 @@ function load_more(){
     // prepare our arguments for the query
 	$load_card_type = $_POST['load_card_type'];
 	$post_types = json_decode( stripslashes( $_POST['post_types'] ), true );
-	$tax_query = json_decode( stripslashes( $_POST['tax_query'] ), true );
 	$url_query_params =  json_decode( stripslashes( $_POST['query_params'] ), true );
 	$additional_filter =  json_decode( stripslashes( $_POST['additional_filter'] ), true );
 
 	$args = array(
-        's' => $_POST['search'],
-        'posts_per_page' => $_POST['post_count'] + $_POST['load_posts'],
-        'post_type'      => $post_types,
-        'post_status' => 'publish',
-        'orderby'        => 'post_title',
-        'order'          => 'ASC'
-    );
+		's'              => $_POST['search'],
+		'posts_per_page' => $_POST['post_count'] + $_POST['load_posts'],
+		'post_type'      => $post_types,
+		'post_status'    => 'publish',
+//        'orderby'        => 'post_title',
+//        'order'          => 'ASC'
+	);
 
 	if ( isset($url_query_params["post_terms"]) ) {
-		$args['tax_query'] = array(
-			array(
-				'taxonomy' => 'argomenti',
-				'field' => 'id',
-				'terms' => $url_query_params["post_terms"]
-			)
-		);
-	} elseif ( $tax_query ) {
-		$args['tax_query'] =  $tax_query;
+		$args['tax_query'] = $args + array(
+				array(
+					'taxonomy' => 'argomenti',
+					'field'    => 'id',
+					'terms'    => $url_query_params["post_terms"]
+				)
+			);
 	}
-	if ( isset($url_query_params["post_types"]) ) $args['post_type'] = $url_query_params["post_types"];
-	if ( isset($url_query_params["s"]) ) $args['s'] = $url_query_params["s"];
-	if ( isset($additional_filter) ) $args = $args + $additional_filter;
+	if ( isset( $url_query_params["post_types"] ) ) {
+		$args['post_type'] = $url_query_params["post_types"];
+	}
+	if ( isset( $url_query_params["s"] ) ) {
+		$args['s'] = $url_query_params["s"];
+	}
+	if ( $additional_filter ) {
+		if ( isset( $additional_filter['taxonomy'] ) ) {
+			$tax_query         = array(
+				'relation' => 'AND',
+				array(
+					'taxonomy' => $additional_filter['taxonomy'],
+					'field'    => 'term_id',
+					'terms'    => $additional_filter['terms'],
+				)
+			);
+			$args['tax_query'] = $tax_query;
+		}
+	}
 
 	// it is always better to use WP_Query but not here
 	$new_query = query_posts( $args );
 
 	$out = '';
-    if( have_posts() ) :
-		
+	if ( have_posts() ) :
+
 		$i = 0;
 		// run the loop
-		while( have_posts() ): the_post();
+		while ( have_posts() ): the_post();
 		$post = get_post();
 		++$i;
 
@@ -82,11 +95,11 @@ function load_more(){
 			$hide_categories = true;
 			$out .= load_template_part("template-parts/servizio/cards-list");
 		}
-		if ($load_card_type == "notizia"){
-			$out .= load_template_part("template-parts/notizia/cards-list");  
+		if ($load_card_type == "notizia" ) {
+			$out .= load_template_part( "template-parts/novita/cards-list" );
 		}
 		if ($load_card_type == "documento_pubblico"){
-			$out .= load_template_part("template-parts/documento/cards-list");  
+			$out .= load_template_part( "template-parts/documento/card");
 		}
 		if ($load_card_type == "global-search"){
 			$out .= load_template_part("template-parts/search/item");  
