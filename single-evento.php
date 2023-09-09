@@ -343,71 +343,66 @@ get_header();
 				</article>
 			<?php } ?>
 
-			<article id="contatti" class="it-page-section mb-5">
-				<?php if ( is_array( $punti_contatto ) && count( $punti_contatto ) ) { ?>
-					<h2 class="mb-3">Contatti</h2>
-					<?php foreach ( $punti_contatto as $post_id ) {
-						$with_all_contacts = true;
-						get_template_part( 'template-parts/punto-contatto/card' );
-					} ?>
-				<?php } ?>
-				<?php if ( is_array( $organizzatori ) && count( $organizzatori ) ) { ?>
-					<h4 class="h5 mt-4">Con il supporto di:</h4>
-					<?php foreach ( $organizzatori as $post_id ) {
-						get_template_part( "template-parts/unita-organizzativa/card" );
-					} ?>
-				<?php } ?>
-			</article>
+          <article id="contatti" class="it-page-section mb-5">
+          <?php if( is_array($punti_contatto) && count($punti_contatto) ) { ?>
+            <h2 class="mb-3">Contatti</h2>
+            <?php foreach ($punti_contatto as $pc_id) {
+                get_template_part('template-parts/single/punto-contatto');
+            } ?>
+          <?php } ?>
+          <?php if( is_array($organizzatori) && count($organizzatori) ) { ?>
+            <h4 class="h5 mt-4">Con il supporto di:</h4>
+            <?php foreach ($organizzatori as $uo_id) {
+                get_template_part("template-parts/unita-organizzativa/card-full");
+            } ?>
+          <?php } ?>
+          </article>
+          
+          <article id="ulteriori-informazioni" class="it-page-section mb-5">
+          <?php 
+              if ( (is_array($patrocinato) && count($patrocinato)) || 
+              (is_array($sponsor) && count($sponsor)) ) { ?>
+            <h3 class="mb-3">Ulteriori informazioni</h3>
+          <?php
+              if ( is_array($patrocinato) && count($patrocinato) ) {
+                  echo '<h4 class="h5">Patrocinato da:</h4>';
+                  echo '<div class="link-list-wrapper mb-3"><ul class="link-list">';
+                  foreach ($patrocinato as $item) { ?>
+                      <li><a class="list-item px-0" href="<?php echo $item['_dci_evento_url']; ?>" target="_blank"><span><?php echo $item['_dci_evento_nome']; ?></span></a>
+                      </li>
+                  <?php }
+                  echo '</ul></div>';
+              }
+              if ( is_array($sponsor) && count($sponsor) ) {
+                  echo '<h4 class="h5">Sponsor:</h4>';
+                  echo '<div class="link-list-wrapper"><ul class="link-list">';
+                  foreach ($sponsor as $item) { ?>
+                      <li><a class="list-item px-0" href="<?php echo $item['_dci_evento_url']; ?>" target="_blank"><span><?php echo $item['_dci_evento_nome']; ?></span></a>
+                      </li>
+                  <?php }
+                  echo '</ul></div>';
+              }}
+          ?>
+          <?php if ($more_info) { ?>
+              <div class="mt-5">
+                  <div class="callout">
+                      <div class="callout-title">
+                          <svg class="icon">
+                          <use xlink:href="#it-info-circle"></use>
+                          </svg>
+                      </div>
+                      <?php echo $more_info; ?>
+                  </div>
+              </div>
+          <?php } ?>
+          </article>
+          <?php get_template_part('template-parts/single/page_bottom'); ?>
+          </section>
+      </div>
+    </div>
+    <?php get_template_part("template-parts/common/valuta-servizio"); ?>
 
-			<article id="ulteriori-informazioni" class="it-page-section mb-5">
-				<?php
-				if ( ( is_array( $patrocinato ) && count( $patrocinato ) ) ||
-					( is_array( $sponsor ) && count( $sponsor ) ) ) { ?>
-					<h3 class="mb-5">Ulteriori informazioni</h3>
-					<?php
-					if ( is_array( $patrocinato ) && count( $patrocinato ) ) {
-						echo '<h4 class="h5">Patrocinato da:</h4>';
-						echo '<div class="link-list-wrapper mb-5"><ul class="link-list">';
-						foreach ( $patrocinato as $item ) { ?>
-							<li><a class="list-item px-0" href="<?php echo $item['_dci_evento_url']; ?>" target="_blank"><span>
-										<?php echo $item['_dci_evento_nome']; ?>
-									</span></a>
-							</li>
-						<?php }
-						echo '</ul></div>';
-					}
-					if ( is_array( $sponsor ) && count( $sponsor ) ) {
-						echo '<h4 class="h5">Sponsor:</h4>';
-						echo '<div class="link-list-wrapper"><ul class="link-list">';
-						foreach ( $sponsor as $item ) { ?>
-							<li><a class="list-item px-0" href="<?php echo $item['_dci_evento_url']; ?>" target="_blank"><span>
-										<?php echo $item['_dci_evento_nome']; ?>
-									</span></a>
-							</li>
-						<?php }
-						echo '</ul></div>';
-					}
-				}
-				?>
-				<?php if ( $more_info ) { ?>
-					<div class="mt-5">
-						<div class="callout">
-							<div class="callout-title">
-								<svg class="icon">
-									<use xlink:href="#it-info-circle"></use>
-								</svg>
-							</div>
-							<?php echo $more_info; ?>
-						</div>
-					</div>
-				<?php } ?>
-			</article>
-			<?php get_template_part( 'template-parts/single/page_bottom' ); ?>
-			</section>
-		</div>
-		</div>
-
-		<!-- <?php get_template_part( 'template-parts/single/more-posts', 'carousel' ); ?> -->
+    <!-- <?php get_template_part('template-parts/single/more-posts', 'carousel'); ?> -->
 
 		<?php
 	endwhile; // End of the loop.

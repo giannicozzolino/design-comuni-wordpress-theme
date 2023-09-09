@@ -11,15 +11,14 @@ global $obj, $the_query, $load_posts, $load_card_type, $additional_filter, $titl
 
 $max_posts  = isset( $_GET['max_posts'] ) ? $_GET['max_posts'] : 3;
 $load_posts = 3;
-$query      = isset( $_GET['search'] ) ? $_GET['search'] : null;
-
-$args       = array(
-	's'                  => $query,
-	'posts_per_page'     => $max_posts,
-	'post_type'          => 'servizio',
-	'categorie_servizio' => $obj->slug,
-	'orderby'            => 'post_title',
-	'order'              => 'ASC'
+$query = isset($_GET['search']) ? $_GET['search'] : null;
+$args = array(
+    's' => $query,
+    'posts_per_page' => $max_posts,
+    'post_type'      => 'servizio',
+    'categorie_servizio' => $obj->slug,
+    'orderby'        => 'post_title',
+    'order'          => 'ASC'
 );
 $the_query  = new WP_Query( $args );
 $servizi    = $the_query->posts;
