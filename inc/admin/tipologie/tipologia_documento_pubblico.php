@@ -76,27 +76,23 @@ function dci_add_documento_pubblico_metaboxes()
     ) );
     $cmb_protocollo->add_field( array(
         'id' => $prefix . 'numero_protocollo',
-        'name'        => __( 'Numero di protocollo *', 'design_comuni_italia' ),
+        'name'        => __( 'Numero di protocollo', 'design_comuni_italia' ),
         'desc' => __('Numero di protocollo del documento', 'design_comuni_italia'),
         'type' => 'text',
         'attributes' => array(
-            'maxlength' => '255',
-            'required' => 'required'
+            'maxlength' => '255'
         )
     ) );
 
     $cmb_protocollo->add_field( array(
         'id' => $prefix . 'data_protocollo',
-        'name'        => __( 'Data protocollo *', 'design_comuni_italia' ),
+        'name'        => __( 'Data protocollo', 'design_comuni_italia' ),
         'desc' => __('Data di protocollo del documento', 'design_comuni_italia'),
         'type' => 'text_date',
         'date_format' => 'd-m-Y',
         'data-datepicker' => json_encode( array(
-            'yearRange' => '-100:+0',
-        ) ),
-        'attributes' => array(
-            'required' => 'required'
-        )
+            'yearRange' => '-100:+0'
+        ) )
     ) );
 
     //APERTURA
